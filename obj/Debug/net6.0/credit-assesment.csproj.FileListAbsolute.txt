@@ -1,0 +1,15 @@
+C:\Users\85127608\Documents\VS Code\credit-assesment\bin\Debug\net6.0\credit-assesment.exe
+C:\Users\85127608\Documents\VS Code\credit-assesment\bin\Debug\net6.0\credit-assesment.deps.json
+C:\Users\85127608\Documents\VS Code\credit-assesment\bin\Debug\net6.0\credit-assesment.runtimeconfig.json
+C:\Users\85127608\Documents\VS Code\credit-assesment\bin\Debug\net6.0\credit-assesment.dll
+C:\Users\85127608\Documents\VS Code\credit-assesment\bin\Debug\net6.0\credit-assesment.pdb
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.csproj.AssemblyReference.cache
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.AssemblyInfoInputs.cache
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.AssemblyInfo.cs
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.csproj.CoreCompileInputs.cache
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.dll
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\refint\credit-assesment.dll
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.pdb
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\credit-assesment.genruntimeconfig.cache
+C:\Users\85127608\Documents\VS Code\credit-assesment\obj\Debug\net6.0\ref\credit-assesment.dll
