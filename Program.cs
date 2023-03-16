@@ -2,15 +2,12 @@
 
 
 class Program
-{
+{   
+    const int LOAN = 80000;
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
         Data pronostico = new Data();
         Array.Copy(pronostico.data,4,pronostico.result,0,22);
-
-        
-        System.Console.WriteLine(pronostico.result[0,2]);
         
         for (int i = 1; i <= (pronostico.data.Length/4); i++)
         {
@@ -32,9 +29,49 @@ class Program
         pronostico.b0 = b0(pronostico.averageX, pronostico.averageY, pronostico.b1);
 
          //Next: Try while loop until array ends to add future values based on number of known months
+        int firstNextMonth = pronostico.data.Length/4;
+        string[,] tmpArray = new string[12,4];
+        for (int i = 0; i < 12; i++){
+            firstNextMonth += 1;
+            double tmp = Math.Round(pronostico.b0 + (pronostico.b1*firstNextMonth),0);
+            tmpArray[i, 0] = "";
+            tmpArray[i, 1] = Convert.ToString(tmp);
+            tmpArray[i, 2] = "";
+            tmpArray[i, 3] = "";
+        }
+        
+        pronostico.result = MergeArray(pronostico.data,tmpArray);
 
+        int futureYearSum = 0;
+        for (int i = 13; i < pronostico.result.Length/4; i++)
+        {
+            futureYearSum += Convert.ToInt32(pronostico.result[i,1]);
+        }
+
+        double avgFutureYear = futureYearSum / 12;
+        int n = 0;
+        while (pronostico.paid < LOAN){
+            pronostico.paid += avgFutureYear * .1;
+            n += 1;
+        }
+
+        // System.Console.WriteLine(avgFutureYear * .1);
+        // System.Console.WriteLine(pronostico.paid);
+        // System.Console.WriteLine(Convert.ToDouble(n)/12);
+
+        System.Console.WriteLine("DeAntojo S.A. de C.V. podría pagar su prestamso de $80,000 en " + Math.Round(Convert.ToDouble(n)/12,2) + " años");
         
-        
+        if (n <= 60){
+            if (n <= 36){
+                System.Console.WriteLine("El credito se puede pagar en al menos 36 meses");
+            }
+            else{
+                System.Console.WriteLine("El credito se puede pagar en al menos 60 meses");
+            }
+        }
+        else{
+            System.Console.WriteLine("El credito requiere más de 60 meses para pagarse");
+        }
     }
 
     public static double b0(double avgX, double avgY, double b1){
@@ -43,6 +80,14 @@ class Program
     public static double b1(double sumXY, double sumXSq, double avgX, double avgY, int n){
         return (sumXY - (n*avgX*avgY))/(sumXSq-(n*Math.Pow(avgX,2)));
     }
+
+    static public string[,] MergeArray(string[,] firstArray, string[,] secondArray)
+{
+    var combinedArray = new string[firstArray.Length/4 + secondArray.Length/4,4];
+    Array.Copy(firstArray, combinedArray, firstArray.Length);
+    Array.Copy(secondArray, 0, combinedArray, firstArray.Length, secondArray.Length);
+    return combinedArray;
+}
 }
 
 class Data{
@@ -71,7 +116,9 @@ class Data{
     public double b0 = 0;
     public double b1 = 0;
 
-    public string[,] result = new string[26,4];
+    public string[,] result = new string[25,4];
+
+    public double paid = 0;
 }
 class Handling
 
