@@ -1,14 +1,17 @@
 ﻿namespace credit_assesment;
 
-
 class Program
 {   
     const int LOAN = 80000;
     static void Main(string[] args)
     {
+        //Crea instancia de clase Data para almacenar lhistorial de utilidades del ejercicio anterior
         Data pronostico = new Data();
+
+        //Almacena la intancia creada en un arreglo de resultados
         Array.Copy(pronostico.data,4,pronostico.result,0,22);
         
+        //Calculo de promedios y sumatorias por cada mes necesarias para calcular B0 y B1
         for (int i = 1; i <= (pronostico.data.Length/4); i++)
         {
             pronostico.data[i-1,2] = Convert.ToString(i * Convert.ToInt32(pronostico.data[i-1,1]));
@@ -24,11 +27,13 @@ class Program
         pronostico.averageX = pronostico.averageX / (pronostico.data.Length/4);
         pronostico.averageY = pronostico.averageY / (pronostico.data.Length/4);
 
+        //Calculo de B1 con lo ya calculado
         pronostico.b1 = b1(pronostico.sumXY, pronostico.sumXSq, pronostico.averageX, pronostico.averageY, pronostico.data.Length/4);
         
+        //Calculo de B0 en base al B1 calculado
         pronostico.b0 = b0(pronostico.averageX, pronostico.averageY, pronostico.b1);
 
-         //Next: Try while loop until array ends to add future values based on number of known months
+        //Agrega el calculo de las estimaciones de los siguientes 12 meses en un arreglo temporal
         int firstNextMonth = pronostico.data.Length/4;
         string[,] tmpArray = new string[12,4];
         for (int i = 0; i < 12; i++){
@@ -40,14 +45,17 @@ class Program
             tmpArray[i, 3] = "";
         }
         
+        //Junta los datos originales con los calculos realizados en el arreglo de resultados final
         pronostico.result = MergeArray(pronostico.data,tmpArray);
 
+        //suma los pagos que se podrian hacer
         int futureYearSum = 0;
         for (int i = 13; i < pronostico.result.Length/4; i++)
         {
             futureYearSum += Convert.ToInt32(pronostico.result[i,1]);
         }
 
+        //Revisa en cuantos meses se puede pagar el prestamo
         double avgFutureYear = futureYearSum / 12;
         int n = 0;
         while (pronostico.paid < LOAN){
@@ -55,10 +63,8 @@ class Program
             n += 1;
         }
 
-        // System.Console.WriteLine(avgFutureYear * .1);
-        // System.Console.WriteLine(pronostico.paid);
-        // System.Console.WriteLine(Convert.ToDouble(n)/12);
 
+        //Muestra en consola en cuantos años se puede pagar el prestamo y si este es posible de pagar en 36 o 60 meses
         System.Console.WriteLine("DeAntojo S.A. de C.V. podría pagar su prestamso de $80,000 en " + Math.Round(Convert.ToDouble(n)/12,2) + " años");
         
         if (n <= 60){
@@ -74,6 +80,7 @@ class Program
         }
     }
 
+    //Creacion de funciones con calculos necesarios
     public static double b0(double avgX, double avgY, double b1){
         return avgY - (b1*avgX);
     }
@@ -89,7 +96,7 @@ class Program
     return combinedArray;
 }
 }
-
+ 
 class Data{
 
     public string[,] data = {
@@ -119,68 +126,4 @@ class Data{
     public string[,] result = new string[25,4];
 
     public double paid = 0;
-}
-class Handling
-
-{
-     public static Char GetKeyPress(String msg, Char[] validChars){
-      ConsoleKeyInfo keyPressed;
-      bool valid = false;
-
-      Console.WriteLine();
-      do {
-         Console.Write(msg);
-         keyPressed = Console.ReadKey();
-         Console.WriteLine();
-         if (Array.Exists(validChars, ch => ch.Equals(Char.ToUpper(keyPressed.KeyChar))))
-            valid = true;
-      } while (! valid);
-      return keyPressed.KeyChar;
-  } 
-}
-
-class Table
-{
-    static int tableWidth = 70;
-    static string[] columns = {"Column1", "column2"};
-    static void PrintLine(){
-        Console.WriteLine(new string('-', tableWidth));
-    }
-
-    static void PrintRow(params string[] columns){
-        int width = (tableWidth - columns.Length) / columns.Length;
-        string row = "|";
-
-        foreach (string column in columns){
-            row += AlignCenter(column, width) + "|";
-        }
-
-        Console.WriteLine(row);
-    }
-
-    static string AlignCenter(string text, int width){
-        text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
-
-        if (string.IsNullOrEmpty(text))
-        {
-            return new string(' ', width);
-        }
-        else
-        {
-            return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
-        }
-    }
-
-    public static void PrintTable(){
-        
-        PrintLine();
-        PrintRow(columns);
-        // for(int i = 1; i <= plazo;i++){
-        //     saldo = saldo - (totalCredito / plazo);
-        //     PrintLine();
-        //     PrintRow(Convert.ToString(i),Convert.ToString((Math.Round(totalCredito / plazo,2))),Convert.ToString((monto/plazo).ToString("C")),Convert.ToString((interes/plazo).ToString("C")),Convert.ToString((saldo).ToString("C")));
-        // }
-        PrintLine();
-        Console.ReadLine();
-    }
 }
